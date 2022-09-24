@@ -1,0 +1,163 @@
+
+------------------------------------------------------------------------------------>     Register /  SignUp  .html
+
+    <div class="bootstrap-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3 " >
+                    <div class="container" style="text-align:center ;">
+                        <img src="../../../assets/registration.png" alt="not Found" >
+                    </div>
+                    <h1 style="text-align: center;">Register Here..</h1>
+                    {{user | json}}
+
+                    <form class="example-form" (ngSubmit)="formSubmit()" >
+                        <!--For Username -->
+                        
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Username</mat-label>
+                            <input
+                            name="username" 
+                            [(ngModel)]="user.username"
+                            matInput placeholder="Username" >
+                        </mat-form-field>
+                        
+                        <!--For Password -->
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>password</mat-label>
+                            <input
+                            name="password"
+                            [(ngModel)]="user.password"
+                            matInput [type]="hide ? 'password' : 'text'">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon> {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <!--For FirstName -->
+                        
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>FirstName</mat-label>
+                            <input
+                            name="firstName"
+                            [(ngModel)]="user.firstName"
+                            matInput placeholder="FirstName" >
+                        </mat-form-field>
+
+                        <!--For Username -->
+                        
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>LastName</mat-label>
+                            <input 
+                            name="lastName"
+                            [(ngModel)]="user.lastName"
+                            matInput placeholder="LastName" >
+                        </mat-form-field>
+                        
+                        <!--For Email -->
+                        
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input 
+                            name="email"
+                            [(ngModel)]="user.email"
+                            type="email" matInput placeholder="Email" >
+                        </mat-form-field>
+
+                        <!--For Phone -->
+                        
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Phone</mat-label>
+                            <input 
+                            name="phone"
+                            [(ngModel)]="user.phone"
+                            type="number" matInput placeholder="Phone"  >
+                        </mat-form-field>
+                        <div class="container" style="text-align: center;">
+                            <button type="submit" mat-raised-button  color="primary">Register</button>
+                            <button type="reset" mat-raised-button  color="primary" style="margin-left: 20px;">Reset</button>
+                        </div>
+                    
+                    </form>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+-------------------------------------------------------------------------------------------------------------------------------  Register  / SignUp .css
+
+.full-width{
+    width: 100% ;
+}
+
+.example-container .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+  
+  .example-right-align {
+    text-align: right;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  input.example-right-align {
+    -moz-appearance: textfield;
+  }
+  
+  
+  
+  ------------------------------------------------------------------------------------------------------------------------------------------>Register / SignUp .ts
+  
+  
+  import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/Services/user.service';
+
+@Component({
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css']
+})
+export class SignupComponent implements OnInit {
+  hide = true;
+  constructor( private userService:UserService) { }
+
+  public user={
+    username:"",
+    password:"",
+    firstName:"",
+    lastName:"",
+    email:"",
+    phone:""
+  };
+
+  ngOnInit(): void {
+  }
+
+  formSubmit()
+  {
+    console.log(this.user);
+    if(this.user.username==''|| this.user.username==null)
+    {
+   
+      alert("username is required")
+      return;
+    }
+
+    this.userService.addUser(this.user).subscribe(
+      data=>{
+        console.log(this.user);
+        alert("data Submitted succussfully");
+
+      },
+      error=>{
+        console.log(error);
+        alert("something went wrong")
+      }
+    )
+  }
+
+}
